@@ -16,7 +16,7 @@ defmodule Bunyan.Source.Api.State do
     validate_legal_options(options, @valid_options, Bunyan.Source.Api)
 
     %__MODULE__{}
-    |> maybe_add_level(:runtime_log_level, options[:runtime_log_level])
+    |> maybe_add_level(options, :runtime_log_level)
   end
 
 end
