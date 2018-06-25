@@ -6,7 +6,7 @@ defmodule Bunyan.Source.Api.Server do
 
 
   def init(options) do
-      { :ok, options }
+    { :ok, options }
   end
 
   def handle_cast({ level, msg_or_fun, extra }, options) do

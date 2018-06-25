@@ -6,9 +6,19 @@ defmodule Bunyan.Source.Api.Test do
   alias Bunyan.Shared.Level
   alias TH.DummyCollector,         as: Collector
 
+  def start_api(config) do
+    state = Api.state_from_config(Collector, config)
+    GenServer.start(Api.Server, state, name: Api.Server)
+  end
+
+  def stop_api do
+    GenServer.stop(Api.Server)
+  end
+
+
   test "Generates messages to the collector" do
     Collector.start_link
-    Api.initialize_source(Collector, [])
+    start_api([])
     Api.debug("debug", nil)
     Api.info("and info", nil)
     Api.warn("warning", with: "extras")
@@ -18,6 +28,7 @@ defmodule Bunyan.Source.Api.Test do
     msgs = Collector.get_messages
 
     Collector.stop
+    stop_api()
 
     assert length(msgs) == 4
 
@@ -42,7 +53,8 @@ defmodule Bunyan.Source.Api.Test do
 
   test "filters messages below the runtime log level" do
     Collector.start_link
-    Api.initialize_source(Collector, [ runtime_log_level: :warn ])
+
+    start_api(runtime_log_level: :warn)
 
     Api.debug("debug", nil)
     Api.info("and info", nil)
@@ -53,6 +65,7 @@ defmodule Bunyan.Source.Api.Test do
     msgs = Collector.get_messages
 
     Collector.stop
+    stop_api()
 
     assert length(msgs) == 2
 
