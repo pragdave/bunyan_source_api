@@ -1,21 +1,26 @@
+Code.load_file("shared_build_stuff/mix.exs")
+alias Bunyan.Shared.Build
+
 defmodule BunyanSourceApi.MixProject do
   use Mix.Project
 
-  def project do
+  def project() do
+    Build.project(
+      :bunyan_source_api,
+      "0.1.0",
+      &deps/1,
+      "API for the Bunyan distributed and pluggable logging system (error, warn, info, and debug functions)"
+    )
+  end
+
+  def application(), do: []
+
+  def deps(a) do
+    IO.inspect a
     [
-      app:      :bunyan_source_api,
-      version:  "0.1.0",
-      elixir:   "~> 1.6",
-      deps:     deps(),
-      start_permanent: Mix.env() == :prod,
+      bunyan:  [ bunyan_shared: ">= 0.0.0" ],
+      others:  [],
     ]
   end
 
-  def application, do: []
-
-  defp deps do
-    [
-      { :bunyan_shared, path: "../bunyan_shared" },
-    ]
-  end
 end
