@@ -15,7 +15,6 @@ defmodule Bunyan.Source.Api.Server do
   end
 
   def handle_cast({ level, msg_or_fun, extra }, options) do
-    IO.inspect { level, msg_or_fun, extra , options }
     if level >= options.runtime_log_level do
       msg = %LogMsg{
         level:     level,
