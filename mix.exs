@@ -9,7 +9,6 @@ defmodule BunyanSourceApi.MixProject do
   def project() do
     Build.project(
       :bunyan_source_api,
-      "0.5.0",
       &deps/1,
       "API for the Bunyan distributed and pluggable logging system (error, warn, info, and debug functions)"
     )
